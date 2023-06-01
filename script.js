@@ -15,6 +15,14 @@ window.onload = () => {
 
   init();
 
+  const display = () => {
+    const firstNumber = localStorage.getItem(firstNumberKey);
+    const secondNumber = localStorage.getItem(secondNumberKey);
+    const operation = localStorage.getItem(operationKey);
+
+    displayElement.textContent = `${firstNumber} ${operation} ${secondNumber}`
+  };
+
   const calculate = operation => {
     const firstNumber = +localStorage.getItem(firstNumberKey);
     const secondNumber = +localStorage.getItem(secondNumberKey);
@@ -37,11 +45,37 @@ window.onload = () => {
         result = '';
     }
 
-    displayElement.textContent = result.toFixed(3);
+    if (result % 1 !== 0) {
+      result = result.toFixed(3);
+    }
 
-    localStorage.setItem(firstNumberKey, result.toFixed(3));
+    localStorage.setItem(firstNumberKey, result);
     localStorage.setItem(secondNumberKey, '');
     localStorage.setItem(operationKey, '');
+
+    displayElement.textContent = result;
+  };
+
+  const clearAll = () => {
+    localStorage.setItem(firstNumberKey, '0');
+    localStorage.setItem(secondNumberKey, '');
+    localStorage.setItem(operationKey, '');
+  };
+
+  const deleteOne = () => {
+    let firstNumber = localStorage.getItem(firstNumberKey);
+    let secondNumber = localStorage.getItem(secondNumberKey);
+    const operation = localStorage.getItem(operationKey);
+
+    if (operation === '') {
+      firstNumber = firstNumber.slice(0, -1);
+
+      localStorage.setItem(firstNumberKey, firstNumber);
+    } else {
+      firstNumber = secondNumber.slice(0, -1);
+
+      localStorage.setItem(secondNumberKey, secondNumber);
+    }
   };
 
   const makeOperation = ({ target: { name, value } }) => {
@@ -68,13 +102,13 @@ window.onload = () => {
       secondNumber = '';
       operation = '';
 
-      localStorage.setItem(firstNumberKey, '');
-      localStorage.setItem(secondNumberKey, '');
-      localStorage.setItem(operationKey, '');
+      clearAll();
+    } else if (name === 'del') {
+      deleteOne();
     }
 
-    if (name !== 'equal') {
-      displayElement.textContent = `${firstNumber} ${operation} ${secondNumber}`
+    if (name !== 'equal' && name !== 'equal') {
+      display();
     }
   };
 
