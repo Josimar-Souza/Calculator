@@ -53,5 +53,11 @@
   font-size: 20px;
   height: 80px;
   margin: 0 5px;
+  transition: 0.2s;
   width: 80px;
+}
+
+.buttons-container button:hover{
+  cursor: pointer;
+  transform: scale(1.1, 1.1);
 }
