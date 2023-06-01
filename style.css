@@ -49,6 +49,7 @@
   background-color: black;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   border: none;
+  border-radius: 50%;
   color: white;
   font-size: 20px;
   height: 80px;
@@ -60,4 +61,20 @@
 .buttons-container button:hover{
   cursor: pointer;
   transform: scale(1.1, 1.1);
+}
+
+.ac {
+  color: yellow !important;
+}
+
+.del {
+  color: red !important;
+}
+
+.operation {
+  color: greenyellow !important;
+}
+
+.equal {
+  color: cyan !important;
 }

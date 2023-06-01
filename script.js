@@ -20,7 +20,12 @@ window.onload = () => {
     const secondNumber = localStorage.getItem(secondNumberKey);
     const operation = localStorage.getItem(operationKey);
 
-    displayElement.textContent = `${firstNumber} ${operation} ${secondNumber}`
+    if (firstNumber === '') {
+      displayElement.textContent = '0'
+    } else {
+      displayElement.textContent = `${firstNumber} ${operation} ${secondNumber}`
+    }
+
   };
 
   const calculate = operation => {
@@ -28,36 +33,43 @@ window.onload = () => {
     const secondNumber = +localStorage.getItem(secondNumberKey);
     let result;
 
-    switch(operation) {
-      case '+':
-        result = firstNumber + secondNumber;
-        break;
-      case '-':
-        result = firstNumber - secondNumber;
-        break;
-      case '/':
-        result = firstNumber / secondNumber;
-        break;
-      case '*':
-        result = firstNumber * secondNumber;
-        break;
-      default:
-        result = '';
+    if (firstNumber !== '' && secondNumber !== '' && operation !== '') {
+      switch(operation) {
+        case '+':
+          result = firstNumber + secondNumber;
+          break;
+        case '-':
+          result = firstNumber - secondNumber;
+          break;
+        case '/':
+          result = firstNumber / secondNumber;
+          break;
+        case '*':
+          result = firstNumber * secondNumber;
+          break;
+        default:
+          result = '';
+      }
+  
+      if (result % 1 !== 0) {
+        result = result.toFixed(3);
+      }
+  
+      if (result === 0) {
+        localStorage.setItem(firstNumberKey, '');
+      } else {
+        localStorage.setItem(firstNumberKey, result);
+      }
+  
+      localStorage.setItem(secondNumberKey, '');
+      localStorage.setItem(operationKey, '');
+  
+      displayElement.textContent = result;
     }
-
-    if (result % 1 !== 0) {
-      result = result.toFixed(3);
-    }
-
-    localStorage.setItem(firstNumberKey, result);
-    localStorage.setItem(secondNumberKey, '');
-    localStorage.setItem(operationKey, '');
-
-    displayElement.textContent = result;
   };
 
   const clearAll = () => {
-    localStorage.setItem(firstNumberKey, '0');
+    localStorage.setItem(firstNumberKey, '');
     localStorage.setItem(secondNumberKey, '');
     localStorage.setItem(operationKey, '');
   };
@@ -107,7 +119,7 @@ window.onload = () => {
       deleteOne();
     }
 
-    if (name !== 'equal' && name !== 'equal') {
+    if (name !== 'equal') {
       display();
     }
   };
